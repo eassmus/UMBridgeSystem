@@ -14,16 +14,15 @@ export function Shell({ children }: { children: React.ReactNode }) {
     { href: `${base}/boards`, label: "Boards" },
     { href: `${base}/movement`, label: "Movement" },
     ...(view.me?.director ? [{ href: `${base}/manage`, label: "Manage" }] : []),
+    { href: "/", label: "Exit" },
   ];
-  const active = (href: string) => (href === base ? path === base || path.startsWith(`${base}/enter`) : path.startsWith(href));
+  const active = (href: string) =>
+    href === base ? path === base || path.startsWith(`${base}/enter`) : href !== "/" && path.startsWith(href);
 
   return (
     <>
       <header className="no-print sticky top-0 z-10 border-b border-neutral-200 bg-white">
         <div className="mx-auto flex h-12 max-w-lg items-center gap-3 px-4">
-          <Link href="/" className="text-neutral-500" aria-label="Home">
-            ←
-          </Link>
           <span className="flex-1 truncate font-semibold">{view.name}</span>
           <span className="text-sm tabular-nums text-neutral-500">{view.code}</span>
         </div>

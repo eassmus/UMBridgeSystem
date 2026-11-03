@@ -6,6 +6,7 @@ import { QRCodeSVG } from "qrcode.react";
 import { useEffect, useState } from "react";
 import { BoardPicker } from "@/components/BoardPicker";
 import { DirectorLogin } from "@/components/Join";
+import { BoardProgress, MovementProgress } from "@/components/Progress";
 import { Standings } from "@/components/Standings";
 import { useAction, useTournament } from "@/components/tournament";
 import { Traveller } from "@/components/Traveller";
@@ -57,6 +58,9 @@ function Results({ view }: { view: View }) {
           {view.finished ? "Reopen the game" : "Finish the game and publish results"}
         </Button>
         <ErrorText error={error} />
+      </Section>
+      <Section title="Games">
+        {view.movement ? <MovementProgress view={view} movement={view.movement} /> : <BoardProgress view={view} />}
       </Section>
       {view.played.length > 0 && (
         <>
