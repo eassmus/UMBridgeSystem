@@ -1,0 +1,11 @@
+@import "tailwindcss";
+
+body {
+  @apply bg-white text-neutral-900 antialiased;
+}
+
+@media print {
+  .no-print {
+    display: none !important;
+  }
+}
