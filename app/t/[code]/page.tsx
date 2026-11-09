@@ -131,10 +131,17 @@ function Round({ movement: m, index, pair }: { movement: Movement; index: number
       </p>
       {seat ? (
         <>
-          <p className="text-2xl font-semibold">
-            Table {seat.table} · {seat.dir === "NS" ? "North-South" : "East-West"}
-          </p>
-          <p className="mt-1">
+          <div className="mt-2 grid grid-cols-[auto_1fr] gap-2">
+            <div className="rounded-md border border-neutral-300 px-4 py-2">
+              <span className="block text-xs uppercase tracking-wide text-neutral-500">Table</span>
+              <span className="text-3xl font-semibold tabular-nums">{seat.table}</span>
+            </div>
+            <div className="rounded-md bg-neutral-900 px-4 py-2 text-white">
+              <span className="block text-xs uppercase tracking-wide opacity-70">You sit</span>
+              <span className="text-3xl font-semibold">{seat.dir === "NS" ? "North-South" : "East-West"}</span>
+            </div>
+          </div>
+          <p className="mt-3">
             vs Pair {seat.opp} <span className="text-neutral-600">{pairName(view, seat.opp)}</span>
           </p>
           {shared.length > 0 && (
@@ -177,9 +184,14 @@ function NextRound({ round, pair }: { round: MovementRound | undefined; pair: nu
   return (
     <p className="mt-4 rounded-md bg-neutral-100 p-3 text-sm">
       Next round:{" "}
-      {s
-        ? `Table ${s.table} ${s.dir === "NS" ? "N-S" : "E-W"} vs Pair ${s.opp}, boards ${formatBoards(s.boards)}`
-        : "sit out"}
+      {s ? (
+        <>
+          Table {s.table}, <strong>{s.dir === "NS" ? "North-South" : "East-West"}</strong> vs Pair {s.opp}, boards{" "}
+          {formatBoards(s.boards)}
+        </>
+      ) : (
+        "sit out"
+      )}
     </p>
   );
 }

@@ -140,7 +140,7 @@ function ScoreEntry({ existing, ...given }: { existing?: ResultView; board?: num
           </select>
         </label>
         <label className="text-sm text-neutral-600">
-          N-S pair
+          N-S pair{d.ns === me && " (you)"}
           <select className={select} value={d.ns} onChange={(e) => set({ ns: Number(e.target.value) })}>
             {view.pairs.map((p) => pairOption(p.number))}
           </select>
@@ -149,14 +149,19 @@ function ScoreEntry({ existing, ...given }: { existing?: ResultView; board?: num
           ⇄
         </button>
         <label className="text-sm text-neutral-600">
-          E-W pair
+          E-W pair{d.ew === me && " (you)"}
           <select className={select} value={d.ew} onChange={(e) => set({ ew: Number(e.target.value) })}>
             {view.pairs.map((p) => pairOption(p.number))}
           </select>
         </label>
       </div>
-      <p className="mt-2">
+      <p className="mt-2 flex items-center justify-between gap-2">
         <BoardInfo board={d.board} />
+        {(d.ns === me || d.ew === me) && (
+          <span className="rounded bg-neutral-900 px-2 py-1 text-sm font-semibold text-white">
+            You are {d.ns === me ? "North-South" : "East-West"}
+          </span>
+        )}
       </p>
 
       <div className="mt-4 flex flex-wrap gap-1.5">
@@ -205,8 +210,8 @@ function ScoreEntry({ existing, ...given }: { existing?: ResultView; board?: num
             ] as const
           ).map(([side, pair, seats]) => (
             <div key={side} className="mb-1.5 grid grid-cols-[1fr_4rem_4rem] items-center gap-1.5">
-              <span className="truncate text-sm">
-                {side} · Pair {pair} <span className="text-neutral-600">{pairName(view, pair)}</span>
+              <span className={`truncate text-sm ${pair === me ? "font-semibold" : ""}`}>
+                {side} · {pair === me ? "You" : `Pair ${pair}`} <span className="font-normal text-neutral-600">{pairName(view, pair)}</span>
               </span>
               {seats.map((s) => (
                 <Key key={s} on={d.declarer === s} onClick={() => set({ declarer: s })}>
